@@ -1,0 +1,34 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: copilot
+      POSTGRES_USER: copilot
+      POSTGRES_PASSWORD: copilot-local
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U copilot -d copilot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    build: .
+    command: uvicorn app.backend.main:app --host 0.0.0.0 --port 8000
+    environment:
+      DATABASE_URL: postgresql+psycopg://copilot:copilot-local@db:5432/copilot
+      JWT_SECRET: local-compose-change-me
+      DEMO_MODE: "true"
+    ports: ["8000:8000"]
+    depends_on:
+      db:
+        condition: service_healthy
+  frontend:
+    build: .
+    command: streamlit run app/frontend/streamlit_app.py --server.address 0.0.0.0
+    environment:
+      API_URL: http://api:8000
+    ports: ["8501:8501"]
+    depends_on: [api]
+volumes:
+  pgdata:

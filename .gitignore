@@ -1,0 +1,41 @@
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example
+!.env.*.example
+.streamlit/secrets.toml
+.streamlit/cache/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python environments, caches, and test output
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local databases, logs, and generated runtime files
+*.db
+*.sqlite
+*.sqlite3
+*.log
+logs/
+uploads/
+
+# Model and tool caches
+.cache/
+.model_cache/
+.sentence_transformers/
+
+# Generated local artifacts
+outputs/
+work/
+dist/
+build/

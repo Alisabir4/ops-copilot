@@ -1,0 +1,11 @@
+{
+  "name": "Ops Copilot approved business action receiver",
+  "active": false,
+  "nodes": [
+    {"parameters": {"path": "ops-copilot-action", "httpMethod": "POST", "responseMode": "onReceived"}, "name": "Receive approved action", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [260, 300]},
+    {"parameters": {"assignments": {"assignments": [{"name": "approval_id", "value": "={{ $json.body.approval_id }}", "type": "string"}, {"name": "action_type", "value": "={{ $json.body.action_type }}", "type": "string"}, {"name": "payload", "value": "={{ $json.body.payload }}", "type": "object"}]}}, "name": "Format approved payload", "type": "n8n-nodes-base.set", "typeVersion": 3.4, "position": [500, 300]},
+    {"parameters": {"content": "Connect this verified approved action to your inventory/order system. Keep webhook authentication enabled."}, "name": "Review before connecting system", "type": "n8n-nodes-base.stickyNote", "typeVersion": 1, "position": [740, 300]}
+  ],
+  "connections": {"Receive approved action": {"main": [[{"node": "Format approved payload", "type": "main", "index": 0}]]}},
+  "settings": {"executionOrder": "v1"}
+}
